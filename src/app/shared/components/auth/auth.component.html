@@ -1,0 +1,80 @@
+<div class="auth">
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <mat-card>
+                <mat-card-title *ngIf="alreadyHaveAccount">
+                    Log In
+                </mat-card-title>
+                <mat-card-title *ngIf="!alreadyHaveAccount">
+                    Sign Up
+                </mat-card-title>
+                <mat-card-content>
+                    <ng-container *ngIf="alreadyHaveAccount">
+                        <form class="loginForm d-flex flex-column" ngForm (ngSubmit)="onLogin(loginForm)" #loginForm="ngForm">
+                            <mat-form-field>
+                                <label class="sr-only" for="email">Email</label>
+                                <input  type="email"  
+                                name="email" id="" 
+                                ngModel 
+                                #signInEmail="ngModel"  
+                                matInput
+                                pattern="^[a-zA-Z]{1}[a-zA-Z0-9.\-_]*@[a-zA-Z]{1}[a-zA-Z.-]*[a-zA-Z]{1}[.][a-zA-Z]{2,}$"
+                                placeholder="Email" required>
+                                <mat-error *ngIf="signInEmail.errors?.['required']">
+                                    This field is mandatory
+                                </mat-error>
+                                <mat-error *ngIf="signInEmail.errors?.['pattern']">
+                                    Please enter valid Email Id
+                                </mat-error>
+                            </mat-form-field>
+                            <mat-form-field>
+                                <label class="sr-only" for="password">Password</label>
+                                <input type="password"  
+                                name="password" id="" 
+                                ngModel 
+                                #password="ngModel"
+                                matInput
+                                minlength="8"
+                                placeholder="password" required>
+                                <mat-error *ngIf="password.errors?.['minlength']">
+                                    Minimum length should be 8
+                                </mat-error>
+                            </mat-form-field>
+                            <button mat-raised-button color="primary">
+                                Log in
+                            </button>
+                            <button type="button" mat-button color="primary" 
+                            (click)="alreadyHaveAccount=!alreadyHaveAccount"
+                            >Don't have account?</button>
+                        </form>
+                    </ng-container>
+                    <ng-container *ngIf="!alreadyHaveAccount">
+                        <form class="signUpForm d-flex flex-column" ngForm #signUpForm="ngForm"
+                        (ngSubmit)="onSignUp(signUpForm)">
+                            <mat-form-field>
+                                <input matInput type="email" ngModel name="email" id="" #email="ngModel" placeholder="Email" >
+                            </mat-form-field>
+                            <mat-form-field>
+                                <input matInput type="password" ngModel name="password" id="" #password="ngModel" placeholder="Password" >
+                            </mat-form-field>
+                            <mat-form-field>
+                                <input matInput type="password" ngModel name="confirm_pass" id="" #confirm="ngModel" placeholder="Confirm password" >
+                            </mat-form-field>
+                            <mat-form-field>
+                                <mat-select name="userrole" ngModel #userrole="ngModel" required>
+                                    <mat-option value="">Select userrole</mat-option>
+                                    <mat-option value="teacher">Teacher</mat-option>
+                                    <mat-option value="students">Students</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                            <button type="submit" mat-raised-button color="primary">Create account</button>
+                            <button type="button" mat-button color="primary" 
+                            (click)="alreadyHaveAccount=!alreadyHaveAccount"
+                            > Already have account?</button>
+                        </form>
+                    </ng-container>
+                </mat-card-content>
+            </mat-card>
+        </div>
+    </div>
+</div>
