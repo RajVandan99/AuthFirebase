@@ -40,7 +40,7 @@
                                     Minimum length should be 8
                                 </mat-error>
                             </mat-form-field>
-                            <button mat-raised-button color="primary">
+                            <button mat-raised-button color="primary" [disabled]="!loginForm.valid">
                                 Log in
                             </button>
                             <button type="button" mat-button color="primary" 
@@ -52,22 +52,59 @@
                         <form class="signUpForm d-flex flex-column" ngForm #signUpForm="ngForm"
                         (ngSubmit)="onSignUp(signUpForm)">
                             <mat-form-field>
-                                <input matInput type="email" ngModel name="email" id="" #email="ngModel" placeholder="Email" >
+                                <label for="email" class="sr-only">Email</label>
+                                <input matInput type="email" id="" 
+                                name="email" 
+                                ngModel
+                                #signUpemail="ngModel"
+                                pattern="^[a-zA-Z]{1}[a-zA-Z0-9.\-_]*@[a-zA-Z]{1}[a-zA-Z.-]*[a-zA-Z]{1}[.][a-zA-Z]{2,}$" 
+                                placeholder="Email" required>
+                                <mat-error *ngIf="signUpemail.errors?.['required']">
+                                    This field is mandatory
+                                </mat-error>
+                                <mat-error *ngIf="signUpemail.errors?.['pattern']">
+                                    Please enter valid Email address
+                                </mat-error>
                             </mat-form-field>
                             <mat-form-field>
-                                <input matInput type="password" ngModel name="password" id="" #password="ngModel" placeholder="Password" >
+                                <label for="password" class="sr-only">Password</label>
+                                <input matInput type="password" id=""
+                                name="password"  
+                                ngModel 
+                                #signUpPassword="ngModel"
+                                pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$"
+                                placeholder="Password" required>
+                                <mat-error *ngIf="signUpPassword.errors?.['required']">
+                                    This field is mandatory
+                                </mat-error>
+                                <mat-error *ngIf="signUpPassword.errors?.['pattern']">
+                                    Please enter valid passowrd
+                                </mat-error>
                             </mat-form-field>
                             <mat-form-field>
-                                <input matInput type="password" ngModel name="confirm_pass" id="" #confirm="ngModel" placeholder="Confirm password" >
+                                <label for="confirm_password" class="sr-only">Confirm password</label>
+                                <input matInput type="confirm_password" id="" 
+                                name="confirm_password" 
+                                ngModel 
+                                #confirm="ngModel"
+                                pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$" 
+                                placeholder="Confirm password" required>
+                                <mat-error *ngIf="signUpPassword.errors?.['required']">
+                                    This field is mandatory
+                                </mat-error>
+                                <mat-error *ngIf="signUpPassword.errors?.['pattern']">
+                                    Please enter valid passowrd
+                                </mat-error>
                             </mat-form-field>
                             <mat-form-field>
+                                <label for="select" class="sr-only">Select userrole</label>
                                 <mat-select name="userrole" ngModel #userrole="ngModel" required>
                                     <mat-option value="">Select userrole</mat-option>
-                                    <mat-option value="teacher">Teacher</mat-option>
+                                    <mat-option value="teachers">Teacher</mat-option>
                                     <mat-option value="students">Students</mat-option>
                                 </mat-select>
                             </mat-form-field>
-                            <button type="submit" mat-raised-button color="primary">Create account</button>
+                            <button type="submit" mat-raised-button color="primary" [disabled]="!signUpForm.valid" >Create account</button>
                             <button type="button" mat-button color="primary" 
                             (click)="alreadyHaveAccount=!alreadyHaveAccount"
                             > Already have account?</button>

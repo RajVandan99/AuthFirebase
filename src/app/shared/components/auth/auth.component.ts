@@ -3,6 +3,7 @@ import { AuthService } from '../../services/auth.service';
 import { NgForm } from '@angular/forms';
 import { AngularFirestore} from '@angular/fire/compat/firestore'
 import { Router } from '@angular/router';
+import { SnackbarService } from '../../services/snackbar.service';
 
 @Component({
   selector: 'app-auth',
@@ -14,7 +15,8 @@ export class AuthComponent implements OnInit {
   constructor(
     private _authService:AuthService,
     private _firestore:AngularFirestore,
-    private _router:Router) { }
+    private _router:Router,
+    private _snackBar:SnackbarService) { }
 
   ngOnInit(): void {
     let userrole = localStorage.getItem('userRole')!;
@@ -49,6 +51,11 @@ export class AuthComponent implements OnInit {
         }
       })
     })
+    .catch(error => {
+      let msg:string = error.code.slice(5)
+      this._snackBar.openSnackBar(msg);
+      loginForm.reset();
+    })
 
     }
   }
@@ -62,8 +69,10 @@ export class AuthComponent implements OnInit {
         const uid = res.user?.uid;
         this._firestore.collection('users').doc(uid).set({role:userrole});
       })
-      .catch((err)=>{
-        console.log(err);
+      .catch((error)=>{
+        // console.log(err);
+        let msg:string = error.code.slice(5)
+        this._snackBar.openSnackBar(msg)
       })
     }
     signUpForm.reset();
